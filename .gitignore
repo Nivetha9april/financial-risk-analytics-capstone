@@ -3,7 +3,11 @@
 # ============================================
 *.env
 config/*.env
-!config/*.env.example
+!config/dev.env
+!config/test.env
+!config/prod.env
+config1/*.env
+!config1/*.env.example
 secrets/
 *.key
 *.pem
