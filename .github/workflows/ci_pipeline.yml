@@ -10,7 +10,6 @@ jobs:
   ci_checks:
     runs-on: ubuntu-latest
     
-    # ✅ ADD THIS - Injects secrets as environment variables
     env:
       STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
       STORAGE_ACCESS_KEY: ${{ secrets.STORAGE_ACCESS_KEY }}
@@ -45,9 +44,41 @@ jobs:
     
     - name: Check Config Files
       run: |
-        test -f config/dev.env && echo "✅ dev.env"
-        test -f config/test.env && echo "✅ test.env"
-        test -f config/prod.env && echo "✅ prod.env"
+        echo "========================================="
+        echo "Checking Config Files"
+        echo "========================================="
+        echo "Current directory: $(pwd)"
+        echo ""
+        echo "Listing all files and folders:"
+        ls -la
+        echo ""
+        echo "Checking config folder:"
+        if [ -d "config" ]; then
+          echo "✅ config folder exists"
+          echo "Contents of config folder:"
+          ls -la config/
+        else
+          echo "❌ config folder NOT found"
+        fi
+        echo ""
+        echo "Testing each config file:"
+        if [ -f "config/dev.env" ]; then
+          echo "✅ dev.env exists"
+          cat config/dev.env
+        else
+          echo "❌ dev.env NOT FOUND"
+        fi
+        if [ -f "config/test.env" ]; then
+          echo "✅ test.env exists"
+        else
+          echo "❌ test.env NOT FOUND"
+        fi
+        if [ -f "config/prod.env" ]; then
+          echo "✅ prod.env exists"
+        else
+          echo "❌ prod.env NOT FOUND"
+        fi
+        echo "========================================="
     
     - name: Verify Secrets Available
       run: |
